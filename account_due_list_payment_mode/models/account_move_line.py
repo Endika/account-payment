@@ -1,5 +1,11 @@
-# encoding: utf-8
+# -*- encoding: utf-8 -*-
 ##############################################################################
+#
+#    Module Writen to OpenERP, Open Source Management Solution
+#    Copyright (C) 2015 OBERTIX FREE SOLUTIONS (<http://obertix.net>).
+#                       cubells <vicent@vcubells.net>
+#
+#    All Rights Reserved
 #
 #    This program is free software: you can redistribute it and/or modify
 #    it under the terms of the GNU Affero General Public License as published
@@ -13,25 +19,14 @@
 #
 #    You should have received a copy of the GNU Affero General Public License
 #    along with this program.  If not, see <http://www.gnu.org/licenses/>.
-#
 ##############################################################################
 
-{
-    'name': "Multiple payment days for payment terms",
-    'version': "8.0.1.0.0",
-    'author': "Serv. Tecnol. Avanzados - Pedro M. Baeza, "
-              "Odoo Community Association (OCA)",
-    'category': 'Accounting',
-    'contributors': [
-        'Pedro M. Baeza <pedro.baeza@serviciosbaeza.com>'
-    ],
-    'license': "AGPL-3",
-    'depends': [
-        'account',
-    ],
-    'data': [
-        'views/account_payment_term_view.xml',
-    ],
-    "post_init_hook": "copy_payment_day",
-    'installable': True,
-}
+from openerp import models, fields
+
+
+class AccountMoveLine(models.Model):
+    _inherit = 'account.move.line'
+
+    payment_mode_id = fields.Many2one('payment.mode',
+                                      related='invoice.payment_mode_id',
+                                      string="Payment Mode", store=True)
